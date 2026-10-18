@@ -1,0 +1,26 @@
+.env
+audit/
+wp/
+__pycache__/
+*.pyc
+.venv/
+vendor/
+node_modules/
+
+# viz output is generated from the audit trail
+viz/trail.js
+
+# platform state and cloned repositories
+state/
+repos/
+web/node_modules/
+web/dist/
+
+# hackathon organiser materials - not ours to republish
+docs/
+
+# editor / OS noise
+.DS_Store
+.idea/
+.vscode/
+*.swp

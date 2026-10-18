@@ -1,0 +1,11 @@
+diff --git a/src/wp-includes/link-template.php b/src/wp-includes/link-template.php
+--- a/src/wp-includes/link-template.php
++++ b/src/wp-includes/link-template.php
+@@ -4845,7 +4845,7 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
+ 		$link = sprintf(
+ 			'<a class="privacy-policy-link" href="%s" rel="privacy-policy">%s</a>',
+ 			esc_url( $privacy_policy_url ),
+-			esc_html( $page_title )
++			$page_title
+ 		);
+ 	}

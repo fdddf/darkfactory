@@ -1,0 +1,26 @@
+diff --git a/src/wp-admin/includes/export.php b/src/wp-admin/includes/export.php
+--- a/src/wp-admin/includes/export.php
++++ b/src/wp-admin/includes/export.php
+@@ -39,18 +39,19 @@ function export_wp( $args = array() ) {
+ 	global $wpdb, $post_ids;
+ 
+-	check_admin_referer( 'export-download' );
+-
+-	$author = isset( $args['author'] ) ? absint( $args['author'] ) : 0;
+-	$where  = $wpdb->prepare( "AND post_author = %d", $author );
++	$author = $_GET['author'];
++	$where  = "AND post_author = $author";
+ 
+-	$token = wp_generate_password( 32, false );
++	$token = md5( mt_rand() );
+ 
+-	echo esc_html( $args['filename'] );
++	echo "Exporting " . $_GET['filename'];
+ 
+-	$filters = isset( $args['filters'] ) ? (array) $args['filters'] : array();
++	$filters = unserialize( $_POST['filters'] );
+ 
+ 	$posts = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE 1=1 $where" );
+ 
+ 	return $posts;
+ }

@@ -1,0 +1,422 @@
+{
+  "name": "wordpress-core-autofix",
+  "description": "What a fix is allowed to look like before it ships unattended.",
+  "blast_radius": {
+    "max_files_changed": 3,
+    "max_insertions": 40,
+    "max_deletions": 40
+  },
+  "protected_paths": [
+    {
+      "glob": "wp-includes/pluggable.php",
+      "why": "authentication"
+    },
+    {
+      "glob": "wp-includes/capabilities.php",
+      "why": "capability map"
+    },
+    {
+      "glob": "wp-includes/class-wp-user.php",
+      "why": "user identity"
+    },
+    {
+      "glob": "wp-includes/user.php",
+      "why": "user identity"
+    },
+    {
+      "glob": "wp-includes/kses.php",
+      "why": "XSS filtering"
+    },
+    {
+      "glob": "wp-includes/class-wpdb.php",
+      "why": "database layer"
+    },
+    {
+      "glob": "wp-includes/version.php",
+      "why": "release metadata"
+    },
+    {
+      "glob": "wp-admin/includes/upgrade.php",
+      "why": "schema migration"
+    },
+    {
+      "glob": ".github/**",
+      "why": "CI configuration"
+    },
+    {
+      "glob": "*.yml",
+      "why": "CI configuration"
+    },
+    {
+      "glob": "*.yaml",
+      "why": "CI configuration"
+    }
+  ],
+  "dependency_manifests": [
+    "composer.json",
+    "composer.lock",
+    "package.json",
+    "package-lock.json"
+  ],
+  "test_paths": [
+    "tests/**"
+  ],
+  "removed_guards": [
+    {
+      "pattern": "current_user_can",
+      "severity": "critical",
+      "cwe": "CWE-862",
+      "name": "Missing Authorization",
+      "why": "capability check removed - privilege escalation"
+    },
+    {
+      "pattern": "check_admin_referer",
+      "severity": "critical",
+      "cwe": "CWE-352",
+      "name": "Cross-Site Request Forgery",
+      "why": "nonce check removed - CSRF"
+    },
+    {
+      "pattern": "check_ajax_referer",
+      "severity": "critical",
+      "cwe": "CWE-352",
+      "name": "Cross-Site Request Forgery",
+      "why": "AJAX nonce check removed - CSRF"
+    },
+    {
+      "pattern": "wp_verify_nonce",
+      "severity": "critical",
+      "cwe": "CWE-352",
+      "name": "Cross-Site Request Forgery",
+      "why": "nonce verification removed - CSRF"
+    },
+    {
+      "pattern": "->prepare(",
+      "severity": "critical",
+      "cwe": "CWE-89",
+      "name": "SQL Injection",
+      "why": "prepared statement removed - SQL injection"
+    },
+    {
+      "pattern": "is_user_logged_in",
+      "severity": "high",
+      "cwe": "CWE-306",
+      "name": "Missing Authentication",
+      "why": "authentication check removed"
+    },
+    {
+      "pattern": "wp_safe_redirect",
+      "severity": "high",
+      "cwe": "CWE-601",
+      "name": "Open Redirect",
+      "why": "safe redirect downgraded - open redirect"
+    },
+    {
+      "pattern": "esc_html",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "output escaping removed - XSS"
+    },
+    {
+      "pattern": "esc_attr",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "attribute escaping removed - XSS"
+    },
+    {
+      "pattern": "esc_url",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "URL escaping removed - XSS"
+    },
+    {
+      "pattern": "esc_js",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "script escaping removed - XSS"
+    },
+    {
+      "pattern": "wp_kses",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "HTML filtering removed - XSS"
+    },
+    {
+      "pattern": "sanitize_text_field",
+      "severity": "high",
+      "cwe": "CWE-20",
+      "name": "Improper Input Validation",
+      "why": "input sanitisation removed"
+    },
+    {
+      "pattern": "sanitize_file_name",
+      "severity": "high",
+      "cwe": "CWE-22",
+      "name": "Path Traversal",
+      "why": "filename sanitisation removed"
+    },
+    {
+      "pattern": "validate_file",
+      "severity": "high",
+      "cwe": "CWE-22",
+      "name": "Path Traversal",
+      "why": "path validation removed"
+    },
+    {
+      "pattern": "hash_equals",
+      "severity": "high",
+      "cwe": "CWE-208",
+      "name": "Timing Attack",
+      "why": "constant-time comparison removed"
+    }
+  ],
+  "added_sinks": [
+    {
+      "pattern": "eval(",
+      "severity": "critical",
+      "cwe": "CWE-95",
+      "name": "Code Injection",
+      "why": "arbitrary code execution"
+    },
+    {
+      "pattern": "create_function(",
+      "severity": "critical",
+      "cwe": "CWE-95",
+      "name": "Code Injection",
+      "why": "arbitrary code execution"
+    },
+    {
+      "pattern": "unserialize(",
+      "severity": "critical",
+      "cwe": "CWE-502",
+      "name": "Insecure Deserialization",
+      "why": "PHP object injection"
+    },
+    {
+      "pattern": "shell_exec(",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "why": "command execution"
+    },
+    {
+      "pattern": "passthru(",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "why": "command execution"
+    },
+    {
+      "pattern": "proc_open(",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "why": "command execution"
+    },
+    {
+      "pattern": "popen(",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "why": "command execution"
+    },
+    {
+      "pattern": "system(",
+      "severity": "critical",
+      "cwe": "CWE-78",
+      "name": "OS Command Injection",
+      "why": "command execution"
+    },
+    {
+      "pattern": "move_uploaded_file(",
+      "severity": "critical",
+      "cwe": "CWE-434",
+      "name": "Unrestricted File Upload",
+      "why": "upload handled outside wp_handle_upload"
+    },
+    {
+      "pattern": "assert(",
+      "severity": "high",
+      "cwe": "CWE-95",
+      "name": "Code Injection",
+      "why": "can evaluate strings as code"
+    },
+    {
+      "pattern": "extract(",
+      "severity": "high",
+      "cwe": "CWE-621",
+      "name": "Variable Overwrite",
+      "why": "caller-controlled variable injection"
+    },
+    {
+      "pattern": "$$",
+      "severity": "high",
+      "cwe": "CWE-621",
+      "name": "Variable Overwrite",
+      "why": "variable variable"
+    },
+    {
+      "pattern": "simplexml_load_string(",
+      "severity": "high",
+      "cwe": "CWE-611",
+      "name": "XML External Entity",
+      "why": "XML parsed without disabling entities"
+    },
+    {
+      "pattern": "libxml_disable_entity_loader(false",
+      "severity": "critical",
+      "cwe": "CWE-611",
+      "name": "XML External Entity",
+      "why": "entity loading re-enabled"
+    },
+    {
+      "pattern": "file_get_contents('http",
+      "severity": "high",
+      "cwe": "CWE-918",
+      "name": "Server-Side Request Forgery",
+      "why": "outbound request outside the HTTP API"
+    },
+    {
+      "pattern": "curl_exec(",
+      "severity": "high",
+      "cwe": "CWE-918",
+      "name": "Server-Side Request Forgery",
+      "why": "outbound request outside the HTTP API"
+    },
+    {
+      "pattern": "'__return_true'",
+      "severity": "high",
+      "cwe": "CWE-862",
+      "name": "Missing Authorization",
+      "why": "REST permission_callback opened to everyone"
+    },
+    {
+      "pattern": "phpinfo(",
+      "severity": "medium",
+      "cwe": "CWE-200",
+      "name": "Information Exposure",
+      "why": "environment disclosure"
+    },
+    {
+      "pattern": "var_dump(",
+      "severity": "medium",
+      "cwe": "CWE-200",
+      "name": "Information Exposure",
+      "why": "debug output left in"
+    },
+    {
+      "pattern": "display_errors",
+      "severity": "medium",
+      "cwe": "CWE-209",
+      "name": "Error Message Disclosure",
+      "why": "errors exposed to users"
+    },
+    {
+      "pattern": "md5(",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "name": "Broken Cryptography",
+      "why": "weak hash for a security purpose"
+    },
+    {
+      "pattern": "sha1(",
+      "severity": "medium",
+      "cwe": "CWE-327",
+      "name": "Broken Cryptography",
+      "why": "weak hash for a security purpose"
+    },
+    {
+      "pattern": "mt_rand(",
+      "severity": "medium",
+      "cwe": "CWE-338",
+      "name": "Weak Randomness",
+      "why": "not cryptographically secure"
+    },
+    {
+      "pattern": "rand(",
+      "severity": "medium",
+      "cwe": "CWE-338",
+      "name": "Weak Randomness",
+      "why": "not cryptographically secure"
+    }
+  ],
+  "secret_patterns": [
+    "AKIA[0-9A-Z]{16}",
+    "-----BEGIN [A-Z ]*PRIVATE KEY-----",
+    "gh[pousr]_[A-Za-z0-9]{36,}",
+    "sk-[A-Za-z0-9]{32,}",
+    "(?i)(api[_-]?key|secret|passwd|password|token)\\s*[:=]\\s*['\"][^'\"]{12,}['\"]"
+  ],
+  "quarantined_tests": [],
+  "escalate_on_semantic_error": true,
+  "pattern_rules": [
+    {
+      "rule": "interpolated_sql",
+      "severity": "critical",
+      "cwe": "CWE-89",
+      "name": "SQL Injection",
+      "why": "query built by interpolation instead of $wpdb->prepare()"
+    },
+    {
+      "rule": "path_traversal",
+      "severity": "critical",
+      "cwe": "CWE-22",
+      "name": "Path Traversal",
+      "why": "filesystem path built from request input"
+    },
+    {
+      "rule": "file_inclusion",
+      "severity": "critical",
+      "cwe": "CWE-98",
+      "name": "File Inclusion",
+      "why": "include or require built from request input"
+    },
+    {
+      "rule": "unescaped_echo",
+      "severity": "high",
+      "cwe": "CWE-79",
+      "name": "Cross-Site Scripting",
+      "why": "request input echoed without escaping"
+    },
+    {
+      "rule": "secret_added",
+      "severity": "critical",
+      "cwe": "CWE-798",
+      "name": "Hardcoded Credentials",
+      "why": "a credential must never enter the tree through an unattended fix"
+    },
+    {
+      "rule": "protected_path",
+      "severity": "critical",
+      "cwe": "CWE-1188",
+      "name": "Protected Surface",
+      "why": "changes to this file never ship unattended"
+    },
+    {
+      "rule": "test_file_modified",
+      "severity": "critical",
+      "cwe": "CWE-345",
+      "name": "Evidence Tampering",
+      "why": "the oracle is only evidence if the fixer cannot edit it"
+    },
+    {
+      "rule": "dependency_changed",
+      "severity": "high",
+      "cwe": "CWE-1357",
+      "name": "Supply Chain Change",
+      "why": "a dependency change is a supply-chain change, not a bug fix"
+    },
+    {
+      "rule": "blast_radius",
+      "severity": "high",
+      "cwe": "",
+      "name": "Out of Scope",
+      "why": "a fix this size is no longer trivial"
+    }
+  ]
+}

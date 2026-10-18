@@ -1,0 +1,22 @@
+diff --git a/src/wp-includes/link-template.php b/src/wp-includes/link-template.php
+index a35203c6..0a390531 100644
+--- a/src/wp-includes/link-template.php
++++ b/src/wp-includes/link-template.php
+@@ -4850,16 +4850,7 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
+ 		$link = sprintf(
+ 			'<a class="privacy-policy-link" href="%s" rel="privacy-policy">%s</a>',
+ 			esc_url( $privacy_policy_url ),
+-			wp_kses(
+-				$page_title,
+-				array(
+-					'strong' => array( 'class' => true ),
+-					'em'     => array( 'class' => true ),
+-					'b'      => array( 'class' => true ),
+-					'i'      => array( 'class' => true ),
+-					'span'   => array( 'class' => true ),
+-				)
+-			)
++			esc_html( $page_title )
+ 		);
+ 	}
+ 

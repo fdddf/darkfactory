@@ -1,0 +1,23 @@
+[Unit]
+Description=Dark Factory — autonomous bug resolution platform
+After=network-online.target mariadb.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__APP_USER__
+WorkingDirectory=__APP_DIR__
+EnvironmentFile=-__APP_DIR__/.env
+ExecStart=__APP_DIR__/.venv/bin/python -m darkfactory.cli serve \
+  --host 127.0.0.1 --port __PORT__ --repo wp --runner phpunit --enrich tavily
+Restart=on-failure
+RestartSec=3
+# The line writes only inside its own directory.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__
+
+[Install]
+WantedBy=multi-user.target

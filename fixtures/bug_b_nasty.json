@@ -1,0 +1,37 @@
+{
+  "bug": {
+    "id": "WP-66241",
+    "title": "HTML API: Improve character reference decoding performance",
+    "body": "Improve the performance of `WP_HTML_Decoder::decode()` on strings containing ampersands that do not start a character reference.",
+    "source": "reverted from wordpress-develop @ 2bf0714531, Trac #66241",
+    "hint_paths": [
+      "src/wp-includes/html-api/class-wp-html-decoder.php"
+    ]
+  },
+  "precheck": {
+    "attempts": [
+      {
+        "test_file": "tests/phpunit/tests/html-api/wpHtmlDecoder.php",
+        "exit_code": 2,
+        "output": "PHPUnit 9.6.38\n\nE\n\nThere was 1 error:\n\n1) generated::test_regression\nError: Class \"WP_UnitTest_Factory_Stub\" not found\n\nERRORS!\nTests: 1, Errors: 1."
+      },
+      {
+        "test_file": "tests/phpunit/tests/html-api/wpHtmlDecoder.php",
+        "exit_code": 0,
+        "output": "PHPUnit 9.6.38\n\n.\n\nOK (1 test, 2 assertions)"
+      },
+      {
+        "test_file": "tests/phpunit/tests/html-api/wpHtmlDecoder.php",
+        "exit_code": 2,
+        "output": "PHPUnit 9.6.38\n\nE\n\nThere was 1 error:\n\n1) generated::test_regression\nFatal error: Maximum execution time exceeded\n\nERRORS!\nTests: 1, Errors: 1."
+      }
+    ]
+  },
+  "patch": null,
+  "oracle": {
+    "green": false
+  },
+  "deploy": {
+    "slo_breach": false
+  }
+}

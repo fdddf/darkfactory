@@ -1,0 +1,35 @@
+{
+  "bug": {
+    "id": "WP-A-1cc992c",
+    "title": "Editor: Ensure CSS variable names are generated consistently.",
+    "body": "Reported in Trac #65927. Reproduced by Tests_Block_Supports_States::test_converts_state_preset_vars_to_css_vars.",
+    "source": "reverted from wordpress-develop @ 1cc992cf7b, Trac #65927",
+    "hint_paths": []
+  },
+  "seed": {
+    "sha": "1cc992cf7b5727b5434eb541379e7f2b949e0af8",
+    "regression_diff": "diffs/real_1cc992cf_regression.diff",
+    "selectors": [
+      "tests/phpunit/tests/block-supports/states.php"
+    ],
+    "red_tests": [
+      "Tests_Block_Supports_States::test_converts_state_preset_vars_to_css_vars"
+    ]
+  },
+  "precheck": {
+    "attempts": [
+      {
+        "test_file": "tests/phpunit/tests/block-supports/states.php",
+        "exit_code": 1,
+        "output": "PHPUnit\n\nF\n\nThere was 1 failure:\n\n1) Tests_Block_Supports_States::test_converts_state_preset_vars_to_css_vars\nFailed asserting that the regression is absent.\n\nFAILURES!"
+      }
+    ]
+  },
+  "patch": "diffs/real_1cc992cf_fix.diff",
+  "oracle": {
+    "green": true
+  },
+  "deploy": {
+    "slo_breach": false
+  }
+}

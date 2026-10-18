@@ -1,0 +1,5 @@
+# Nothing. The whole project runs on the Python standard library.
+#
+# Token Factory is an OpenAI-compatible HTTP API and Tavily is plain REST,
+# so both are called with urllib. That means a fresh VM needs python3 and
+# nothing else, and there is no wheel to fail at the worst moment.
